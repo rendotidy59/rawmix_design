@@ -38,6 +38,12 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
 .material-card .mat-header input[type="text"] { border: 1px solid #cbd5e1; border-radius: 5px; padding: 4px 8px; font-size: 0.85rem; width: 140px; }
 .material-card .mat-header select { border: 1px solid #cbd5e1; border-radius: 5px; padding: 4px 6px; font-size: 0.8rem; background: #fff; cursor: pointer; }
 .material-card .mat-enable { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; color: #64748b; cursor: pointer; }
+.btn-auto100 { padding: 3px 10px; background: #059669; color: #fff; border: none; border-radius: 4px; font-size: 0.72rem; font-weight: 600; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+.btn-auto100:hover { background: #047857; }
+.btn-auto100:disabled { background: #94a3b8; cursor: not-allowed; }
+.btn-export { padding: 6px 16px; background: #1e40af; color: #fff; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-export:hover { background: #1e3a8a; }
+.btn-export svg { width: 16px; height: 16px; fill: currentColor; }
 
 .oxide-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 .oxide-table th { text-align: left; padding: 3px 6px; font-weight: 600; color: #475569; border-bottom: 1px solid #e2e8f0; }
@@ -97,7 +103,6 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
 
 /* ===== TARGET LOCK ===== */
 .target-section { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: end; }
-.target-item { }
 .target-item label { font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px; }
 .target-item input { width: 100%; border: 1px solid #cbd5e1; border-radius: 5px; padding: 5px 8px; font-size: 0.85rem; }
 .target-item input:focus { outline: none; border-color: #3b82f6; }
@@ -147,7 +152,13 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
       <h1>⚙️ Raw Mix Design Calculator <small>Cement Raw Meal</small></h1>
       <div class="subtitle">Interactive kalkulator untuk menghitung modulus kualitas raw meal &amp; simulasi proporsi material</div>
     </div>
-    <div class="badge">v1.0</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="badge">v1.0 - Rendo Tidy</div>
+      <button class="btn-export" onclick="exportToCSV()">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+        Export CSV
+      </button>
+    </div>
   </div>
 
   <!-- DASHBOARD -->
@@ -171,7 +182,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                 <input type="checkbox" class="mat-toggle" checked onchange="toggleMaterial(0)">
                 <input type="text" class="mat-name" value="Limestone" oninput="calculateRawMeal()" style="width:120px;">
               </label>
-              <div>
+              <div style="display:flex;gap:6px;align-items:center;">
                 <select class="preset-select" onchange="loadPreset(0, this.value)">
                   <option value="">— Pilih Preset —</option>
                   <option value="limestone">Limestone</option>
@@ -180,6 +191,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                   <option value="iron">Iron Sand</option>
                   <option value="bottomash">Bottom Ash</option>
                 </select>
+                <button class="btn-auto100" onclick="autoNormalize(0)">Auto 100%</button>
               </div>
             </div>
             <table class="oxide-table">
@@ -204,7 +216,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                 <input type="checkbox" class="mat-toggle" checked onchange="toggleMaterial(1)">
                 <input type="text" class="mat-name" value="Shale / Clay" oninput="calculateRawMeal()" style="width:120px;">
               </label>
-              <div>
+              <div style="display:flex;gap:6px;align-items:center;">
                 <select class="preset-select" onchange="loadPreset(1, this.value)">
                   <option value="">— Pilih Preset —</option>
                   <option value="limestone">Limestone</option>
@@ -213,6 +225,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                   <option value="iron">Iron Sand</option>
                   <option value="bottomash">Bottom Ash</option>
                 </select>
+                <button class="btn-auto100" onclick="autoNormalize(1)">Auto 100%</button>
               </div>
             </div>
             <table class="oxide-table">
@@ -237,7 +250,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                 <input type="checkbox" class="mat-toggle" checked onchange="toggleMaterial(2)">
                 <input type="text" class="mat-name" value="Silica Sand" oninput="calculateRawMeal()" style="width:120px;">
               </label>
-              <div>
+              <div style="display:flex;gap:6px;align-items:center;">
                 <select class="preset-select" onchange="loadPreset(2, this.value)">
                   <option value="">— Pilih Preset —</option>
                   <option value="limestone">Limestone</option>
@@ -246,6 +259,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                   <option value="iron">Iron Sand</option>
                   <option value="bottomash">Bottom Ash</option>
                 </select>
+                <button class="btn-auto100" onclick="autoNormalize(2)">Auto 100%</button>
               </div>
             </div>
             <table class="oxide-table">
@@ -270,7 +284,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                 <input type="checkbox" class="mat-toggle" checked onchange="toggleMaterial(3)">
                 <input type="text" class="mat-name" value="Iron Sand" oninput="calculateRawMeal()" style="width:120px;">
               </label>
-              <div>
+              <div style="display:flex;gap:6px;align-items:center;">
                 <select class="preset-select" onchange="loadPreset(3, this.value)">
                   <option value="">— Pilih Preset —</option>
                   <option value="limestone">Limestone</option>
@@ -279,6 +293,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                   <option value="iron" selected>Iron Sand</option>
                   <option value="bottomash">Bottom Ash</option>
                 </select>
+                <button class="btn-auto100" onclick="autoNormalize(3)">Auto 100%</button>
               </div>
             </div>
             <table class="oxide-table">
@@ -303,7 +318,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                 <input type="checkbox" class="mat-toggle" checked onchange="toggleMaterial(4)">
                 <input type="text" class="mat-name" value="Bottom Ash" oninput="calculateRawMeal()" style="width:120px;">
               </label>
-              <div>
+              <div style="display:flex;gap:6px;align-items:center;">
                 <select class="preset-select" onchange="loadPreset(4, this.value)">
                   <option value="">— Pilih Preset —</option>
                   <option value="limestone">Limestone</option>
@@ -312,6 +327,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
                   <option value="iron">Iron Sand</option>
                   <option value="bottomash" selected>Bottom Ash</option>
                 </select>
+                <button class="btn-auto100" onclick="autoNormalize(4)">Auto 100%</button>
               </div>
             </div>
             <table class="oxide-table">
@@ -398,7 +414,7 @@ h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; color: #334155; }
           <span style="font-size:0.75rem;color:#94a3b8;">SiO₂ – Al₂O₃ – Fe₂O₃ (ternary)</span>
         </div>
         <div class="ternary-container">
-          <canvas id="ternaryCanvas" width="300" height="280"></canvas>
+          <canvas id="ternaryCanvas" width="350" height="300"></canvas>
         </div>
       </div>
 
@@ -520,6 +536,25 @@ function loadPreset(matIndex, presetName) {
     if (preset[key] !== undefined) {
       inp.value = preset[key];
     }
+  });
+  calculateRawMeal();
+}
+
+// ===== AUTO NORMALIZE MATERIAL TO 100% =====
+function autoNormalize(matIndex) {
+  const card = document.querySelectorAll('.material-card')[matIndex];
+  const inputs = card.querySelectorAll('.oxide-input');
+  let sum = 0;
+  const values = [];
+  inputs.forEach(inp => {
+    const v = parseFloat(inp.value) || 0;
+    values.push(v);
+    sum += v;
+  });
+  if (sum === 0) return;
+  const scale = 100 / sum;
+  inputs.forEach((inp, i) => {
+    inp.value = Math.round(values[i] * scale * 100) / 100;
   });
   calculateRawMeal();
 }
@@ -799,8 +834,8 @@ function renderOxideChart(blend) {
 function drawTernary(sio2, al2o3, fe2o3) {
   const canvas = document.getElementById('ternaryCanvas');
   const ctx = canvas.getContext('2d');
-  const W = 300, H = 260;
-  const pad = 20;
+  const W = 350, H = 300;
+  const pad = 25;
   const size = Math.min(W - 2*pad, H - 2*pad);
   const cx = W/2;
   const cy = H - pad;
@@ -815,36 +850,49 @@ function drawTernary(sio2, al2o3, fe2o3) {
   const pB = { x: cx - side/2, y: cy };       // Bottom-left - Al2O3
   const pC = { x: cx + side/2, y: cy };       // Bottom-right - Fe2O3
 
-  // Grid lines and labels
-  ctx.strokeStyle = '#d1d5db';
-  ctx.lineWidth = 0.5;
-  ctx.fillStyle = '#6b7280';
-  ctx.font = '10px Segoe UI, sans-serif';
-  ctx.textAlign = 'center';
+  // Fungsi bantu untuk menulis teks dengan background putih
+  function fillTextWithBg(text, x, y, options = {}) {
+    const { color = '#1e293b', font = 'bold 12px Segoe UI, sans-serif', align = 'center', baseline = 'middle', padding = 3 } = options;
+    ctx.font = font;
+    ctx.textAlign = align;
+    ctx.textBaseline = baseline;
+    const metrics = ctx.measureText(text);
+    const tw = metrics.width;
+    let tx = x, ty = y;
+    if (align === 'center') tx = x - tw/2 - padding;
+    else if (align === 'right') tx = x - tw - padding*2;
+    else tx = x - padding;
+    if (baseline === 'middle') ty = y - 6;
+    else if (baseline === 'top') ty = y;
+    else ty = y - 12;
+    ctx.fillStyle = 'rgba(255,255,255,0.92)';
+    ctx.fillRect(tx - 1, ty - 1, tw + padding*2 + 2, 14 + padding*2 + 2);
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y);
+  }
 
-  // Draw triangle
+  // Draw triangle fill (light background)
   ctx.beginPath();
   ctx.moveTo(pA.x, pA.y);
   ctx.lineTo(pB.x, pB.y);
   ctx.lineTo(pC.x, pC.y);
   ctx.closePath();
-  ctx.strokeStyle = '#475569';
-  ctx.lineWidth = 1.5;
+  ctx.fillStyle = '#f8fafc';
+  ctx.fill();
+
+  // Draw triangle outline
+  ctx.beginPath();
+  ctx.moveTo(pA.x, pA.y);
+  ctx.lineTo(pB.x, pB.y);
+  ctx.lineTo(pC.x, pC.y);
+  ctx.closePath();
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Labels
-  ctx.fillStyle = '#1e40af';
-  ctx.font = 'bold 11px Segoe UI, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('SiO₂', pA.x, pA.y - 8);
-  ctx.fillStyle = '#16a34a';
-  ctx.fillText('Al₂O₃', pB.x - 50, pB.y + 14);
-  ctx.fillStyle = '#dc2626';
-  ctx.fillText('Fe₂O₃', pC.x + 50, pC.y + 14);
-
   // Ternary grid lines
-  ctx.strokeStyle = '#e2e8f0';
-  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 0.8;
   for (let pct = 20; pct <= 80; pct += 20) {
     const frac = pct / 100;
 
@@ -855,34 +903,41 @@ function drawTernary(sio2, al2o3, fe2o3) {
     const yPos = cy - yOff;
     ctx.beginPath(); ctx.moveTo(x1, yPos); ctx.lineTo(x2, yPos); ctx.stroke();
 
-    // Labels for SiO₂ grid lines
-    ctx.fillStyle = '#9ca3af';
-    ctx.font = '8px Segoe UI, sans-serif';
-    ctx.fillText(`${100-pct}%`, x1 - 12, yPos + 3);
+    // Labels for SiO₂ grid lines (left side)
+    fillTextWithBg(`${100-pct}%`, x1 - 10, yPos, { font: 'bold 10px Segoe UI, sans-serif', color: '#475569', align: 'right', baseline: 'middle' });
 
     // Lines from left edge to base (constant Al₂O₃)
-    // At Al₂O₃ = frac: connects pA-pB edge at frac to pB-pC edge at (1-frac) from pB
-    const ax = cx - (side/2) * (1 - frac);   // point on pA-pB edge
+    const ax = cx - (side/2) * (1 - frac);
     const ay = cy - h * (1 - frac);
-    const bx = cx - side/2 + frac * side;     // point on pB-pC edge (frac from pB)
+    const bx = cx - side/2 + frac * side;
     const by = cy;
     ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
 
+    // Labels for Al₂O₃ grid lines (left side)
+    fillTextWithBg(`${pct}%`, ax - 10, ay, { font: 'bold 10px Segoe UI, sans-serif', color: '#16a34a', align: 'right', baseline: 'middle' });
+
     // Lines from right edge to base (constant Fe₂O₃)
-    // At Fe₂O₃ = frac: connects pA-pC edge at frac to pB-pC edge at frac from pB
-    const fx = cx + (side/2) * (1 - frac);   // point on pA-pC edge
+    const fx = cx + (side/2) * (1 - frac);
     const fy = cy - h * (1 - frac);
-    const gx = cx - side/2 + (1 - frac) * side;  // point on pB-pC edge ((1-frac) from pB)
+    const gx = cx - side/2 + (1 - frac) * side;
     const gy = cy;
     ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(gx, gy); ctx.stroke();
+
+    // Labels for Fe₂O₃ grid lines (right side)
+    fillTextWithBg(`${pct}%`, fx + 10, fy, { font: 'bold 10px Segoe UI, sans-serif', color: '#dc2626', align: 'left', baseline: 'middle' });
   }
+
+  // Vertex Labels — besar, tebal, dengan background
+  fillTextWithBg('SiO₂', pA.x, pA.y - 14, { font: 'bold 14px Segoe UI, sans-serif', color: '#1e40af', align: 'center', baseline: 'bottom' });
+  fillTextWithBg('Al₂O₃', pB.x - 4, pB.y + 16, { font: 'bold 14px Segoe UI, sans-serif', color: '#16a34a', align: 'center', baseline: 'top' });
+  fillTextWithBg('Fe₂O₃', pC.x + 4, pC.y + 16, { font: 'bold 14px Segoe UI, sans-serif', color: '#dc2626', align: 'center', baseline: 'top' });
 
   // Plot point
   const total = sio2 + al2o3 + fe2o3;
   if (total > 0) {
-    const fA = sio2 / total;     // SiO2 fraction (top)
-    const fB = al2o3 / total;    // Al2O3 fraction (bottom-left)
-    const fC = fe2o3 / total;    // Fe2O3 fraction (bottom-right)
+    const fA = sio2 / total;
+    const fB = al2o3 / total;
+    const fC = fe2o3 / total;
 
     // Convert to barycentric coordinates
     const x = (fB * pB.x + fC * pC.x + fA * pA.x);
@@ -890,31 +945,49 @@ function drawTernary(sio2, al2o3, fe2o3) {
 
     // Draw point
     ctx.beginPath();
-    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.arc(x, y, 8, 0, Math.PI * 2);
     ctx.fillStyle = '#1e293b';
     ctx.fill();
     ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
     ctx.stroke();
 
-    // Label
+    // Label with background
+    const labelText = `(${sio2.toFixed(1)}% SiO₂, ${al2o3.toFixed(1)}% Al₂O₃, ${fe2o3.toFixed(1)}% Fe₂O₃)`;
+    ctx.font = 'bold 11px Segoe UI, sans-serif';
+    const metrics = ctx.measureText(labelText);
+    const labelW = metrics.width;
+    let lx = x + 12;
+    let ly = y - 8;
+    // Keep label within canvas
+    if (lx + labelW > W - 5) lx = x - labelW - 12;
+    if (ly < 10) ly = y + 16;
+
+    // Background rect
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fillRect(lx - 4, ly - 10, labelW + 8, 18);
+    ctx.strokeStyle = 'rgba(30,41,59,0.2)';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(lx - 4, ly - 10, labelW + 8, 18);
+
     ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold 9px Segoe UI, sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText(`(${sio2.toFixed(1)}% SiO₂, ${al2o3.toFixed(1)}% Al₂O₃, ${fe2o3.toFixed(1)}% Fe₂O₃)`, x + 10, y + 3);
+    ctx.textBaseline = 'middle';
+    ctx.fillText(labelText, lx, ly);
 
     // Draw small indicator lines to each vertex
-    ctx.strokeStyle = 'rgba(30,41,59,0.15)';
-    ctx.lineWidth = 0.5;
-    ctx.setLineDash([2,3]);
+    ctx.strokeStyle = 'rgba(30,41,59,0.2)';
+    ctx.lineWidth = 0.8;
+    ctx.setLineDash([3,4]);
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(pA.x, pA.y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(pB.x, pB.y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(pC.x, pC.y); ctx.stroke();
     ctx.setLineDash([]);
   } else {
     ctx.fillStyle = '#94a3b8';
-    ctx.font = '11px Segoe UI, sans-serif';
+    ctx.font = '13px Segoe UI, sans-serif';
     ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText('Tidak ada data', cx, cy - h/2);
   }
 }
@@ -1070,7 +1143,6 @@ function evaluateError(testProps, targetLSF, targetSM, targetAM) {
     blend.mgo += pct * ((parseFloat(inputs[4].value)||0) * factor);
     blend.so3 += pct * ((parseFloat(inputs[5].value)||0) * factor);
   });
-
   if (totalProp > 0) {
     const s = blend.sio2 + blend.al2o3 + blend.fe2o3 + blend.cao + blend.mgo + blend.so3;
     if (s > 0) {
@@ -1095,6 +1167,148 @@ function evaluateError(testProps, targetLSF, targetSM, targetAM) {
   const wAM = 0.3;
 
   return wLSF * Math.pow(lsf - targetLSF, 2) + wSM * Math.pow(sm - targetSM, 2) + wAM * Math.pow(am - targetAM, 2);
+}
+
+// ===== EXPORT TO CSV =====
+function exportToCSV() {
+  const mats = document.querySelectorAll('.material-card');
+  const oxideLabels = ['SiO₂','Al₂O₃','Fe₂O₃','CaO','MgO','SO₃','LOI'];
+  const oxideKeys = ['sio2','al2o3','fe2o3','cao','mgo','so3','loi'];
+  const now = new Date();
+  const timestamp = now.toLocaleString('id-ID');
+  let csv = '';
+
+  // ── Helper: escape CSV ──
+  const esc = v => {
+    const s = String(v);
+    return s.includes(',') || s.includes('"') || s.includes('\n') ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+
+  // ── SECTION 1: Material Composition ──
+  csv += '\ufeff'; // BOM for Excel UTF-8
+  csv += '=== RAW MIX DESIGN - EXPORT DATA ===\n';
+  csv += `Timestamp,${esc(timestamp)}\n\n`;
+
+  csv += '=== KOMPOSISI BAHAN BAKU (% berat) ===\n';
+  csv += 'Material,Status,' + oxideLabels.join(',') + ',Total\n';
+  mats.forEach((card, i) => {
+    const name = card.querySelector('.mat-name').value || `Material ${i+1}`;
+    const enabled = card.querySelector('.mat-toggle').checked ? 'Aktif' : 'Nonaktif';
+    const inputs = card.querySelectorAll('.oxide-input');
+    let sum = 0;
+    const vals = [];
+    inputs.forEach(inp => {
+      const v = parseFloat(inp.value) || 0;
+      vals.push(v.toFixed(2));
+      sum += v;
+    });
+    csv += `${esc(name)},${enabled},${vals.join(',')},${sum.toFixed(2)}\n`;
+  });
+  csv += '\n';
+
+  // ── SECTION 2: Blend Proportions ──
+  csv += '=== PROPORSI CAMPURAN ===\n';
+  csv += 'Material,Proporsi (%)\n';
+  mats.forEach((card, i) => {
+    const name = card.querySelector('.mat-name').value || `Material ${i+1}`;
+    csv += `${esc(name)},${(proportions[i]||0).toFixed(1)}\n`;
+  });
+  csv += `Total,${proportions.reduce((s,p)=>s+p,0).toFixed(2)}\n\n`;
+
+  // ── SECTION 3: Blend Composition (Ignited Basis) ──
+  // Recalculate blend
+  let blend = { sio2:0, al2o3:0, fe2o3:0, cao:0, mgo:0, so3:0 };
+  let totalProp = 0;
+  mats.forEach((card, i) => {
+    const enabled = card.querySelector('.mat-toggle').checked;
+    if (!enabled || proportions[i] <= 0) return;
+    const inputs = card.querySelectorAll('.oxide-input');
+    const loi = parseFloat(inputs[6].value) || 0;
+    const nonLoi = 100 - loi;
+    const factor = nonLoi > 0 ? (100 / nonLoi) : 1;
+    const pct = proportions[i] / 100;
+    totalProp += pct;
+    blend.sio2 += pct * ((parseFloat(inputs[0].value)||0) * factor);
+    blend.al2o3 += pct * ((parseFloat(inputs[1].value)||0) * factor);
+    blend.fe2o3 += pct * ((parseFloat(inputs[2].value)||0) * factor);
+    blend.cao += pct * ((parseFloat(inputs[3].value)||0) * factor);
+    blend.mgo += pct * ((parseFloat(inputs[4].value)||0) * factor);
+    blend.so3 += pct * ((parseFloat(inputs[5].value)||0) * factor);
+  });
+  if (totalProp > 0) {
+    const s = blend.sio2 + blend.al2o3 + blend.fe2o3 + blend.cao + blend.mgo + blend.so3;
+    if (s > 0) {
+      const norm = 100 / s;
+      blend.sio2 *= norm; blend.al2o3 *= norm; blend.fe2o3 *= norm;
+      blend.cao *= norm; blend.mgo *= norm; blend.so3 *= norm;
+    }
+  }
+
+  csv += '=== KOMPOSISI BLEND (Ignited Basis, %) ===\n';
+  csv += 'Oksida,Nilai\n';
+  const oxideDisplay = [
+    { label: 'SiO₂', val: blend.sio2 },
+    { label: 'Al₂O₃', val: blend.al2o3 },
+    { label: 'Fe₂O₃', val: blend.fe2o3 },
+    { label: 'CaO', val: blend.cao },
+    { label: 'MgO', val: blend.mgo },
+    { label: 'SO₃', val: blend.so3 }
+  ];
+  oxideDisplay.forEach(o => { csv += `${o.label},${o.val.toFixed(2)}\n`; });
+  csv += '\n';
+
+  // ── SECTION 4: Modulus ──
+  const { sio2, al2o3, fe2o3, cao, mgo, so3 } = blend;
+  const dLSF = 2.8 * sio2 + 1.18 * al2o3 + 0.65 * fe2o3;
+  const lsf = dLSF > 0 ? (cao / dLSF) * 100 : 0;
+  const sm = (al2o3 + fe2o3) > 0 ? sio2 / (al2o3 + fe2o3) : 0;
+  const am = fe2o3 > 0 ? al2o3 / fe2o3 : 0;
+  const dHM = sio2 + al2o3 + fe2o3;
+  const hm = dHM > 0 ? cao / dHM : 0;
+
+  csv += '=== MODULUS KUALITAS ===\n';
+  csv += 'Parameter,Nilai,Target\n';
+  csv += `LSF,${lsf.toFixed(2)},92 - 98\n`;
+  csv += `SM,${sm.toFixed(2)},2.2 - 2.8\n`;
+  csv += `AM,${am.toFixed(2)},1.2 - 1.8\n`;
+  csv += `HM,${hm.toFixed(2)},1.7 - 2.3\n\n`;
+
+  // ── SECTION 5: Bogue Compounds ──
+  const c3s_val = 4.0710 * cao - 7.6024 * sio2 - 6.7187 * al2o3 - 1.4297 * fe2o3;
+  const c2s_val = 2.8675 * sio2 - 0.7544 * Math.max(0, c3s_val);
+  const c3a_val = 2.6504 * al2o3 - 1.6920 * fe2o3;
+  const c4af_val = 3.0432 * fe2o3;
+  const liquidPhase = 1.13 * Math.max(0, c3a_val) + 1.35 * Math.max(0, c4af_val);
+
+  csv += '=== KOMPOSISI MINERAL (BOGUE) ===\n';
+  csv += 'Mineral,Rumus,Nilai (%)\n';
+  csv += `C3S,3CaO·SiO₂,${Math.max(0, c3s_val).toFixed(2)}\n`;
+  csv += `C2S,2CaO·SiO₂,${Math.max(0, c2s_val).toFixed(2)}\n`;
+  csv += `C3A,3CaO·Al₂O₃,${Math.max(0, c3a_val).toFixed(2)}\n`;
+  csv += `C4AF,4CaO·Al₂O₃·Fe₂O₃,${Math.max(0, c4af_val).toFixed(2)}\n\n`;
+
+  // ── SECTION 6: Liquid Phase ──
+  csv += '=== LIQUID PHASE ===\n';
+  csv += `Liquid Phase (1450°C),${liquidPhase.toFixed(2)}%\n\n`;
+
+  // ── SECTION 7: Target ──
+  const tLSF = document.getElementById('targetLSF').value;
+  const tSM = document.getElementById('targetSM').value;
+  const tAM = document.getElementById('targetAM').value;
+  csv += '=== TARGET SIMULASI ===\n';
+  csv += `Target LSF,${tLSF}\nTarget SM,${tSM}\nTarget AM,${tAM}\n`;
+
+  // ── Download ──
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const dateStr = now.toISOString().slice(0,10).replace(/-/g,'');
+  a.download = `rawmix_export_${dateStr}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 </script>
 </body>
